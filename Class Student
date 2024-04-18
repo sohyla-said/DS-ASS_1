@@ -1,0 +1,53 @@
+#include <iostream>
+using namespace std;
+
+class Student{
+private:
+    string id;
+    string name;
+    double gpa;
+public:
+    //constructor
+    Student(string studentId, string studentName, double studentGpa) {
+        id = studentId;
+        name = studentName;
+        gpa = studentGpa;
+    }
+    //Overloading operator <
+    bool operator<(const Student& other) const {
+        return name < other.name;
+    }
+    //friend function for printing
+    friend ostream& operator<<(ostream& os, const Student& s) {
+        os << "ID: " << s.id << ", Name: " << s.name << ", GPA: " << s.gpa;
+        return os;
+    }
+    string getID()const{
+        return id;
+    }
+    string getNAME()const{
+        return name;
+    }
+    const double getGPA()const{
+        return gpa;
+    }
+
+};
+/*
+int main() {
+
+    Student s1("123", "bbb", 3.9);
+    Student s2("456", "aaa", 3.5);
+
+    cout << "Student s1: " << s1 << endl;
+    cout << "Student s2: " << s2 << endl;
+
+    if (s1.getNAME() < s2.getNAME()) {
+        cout << s2.getNAME() << " less than " << s1.getNAME() << endl;
+    } else {
+        cout << s1.getNAME() << " less than " << s2.getNAME() << endl;
+    }
+
+    return 0;
+}
+*/
