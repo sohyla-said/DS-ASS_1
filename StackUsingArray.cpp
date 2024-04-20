@@ -1,118 +1,107 @@
 #include<bits/stdc++.h>
 using namespace std;
-// Stack using Array
+
+// Stack using linked list
+template <typename T>
+class Node{
+public:
+    T data;
+    Node<T> *next;
+};
 template <typename T>
 class Stack{
 private:
-    int size;
-    int top;
-    T *s;
-    int cnt =0;
+    Node <T>*top;
+    int size=0;
 public:
     Stack(){top = NULL;}
-    void Create(int size);
     void push(T x);
     T pop();
-    void display();
-    int isEmpty();
-    int isFull();
-    T Top();
+    void Display();
+    bool isFull();
+    bool isEmpty();
     int Size();
+    T Top();
     void Clear();
 };
 template <typename T>
-void Stack<T>::Create(int size){
-    this->size = size;
-    top = -1;
-    s = new T[size];
-}
-template <typename T>
-void Stack<T>::display(){
-    for(int i=top;i>=0;i--){
-        cout<<s[i]<<" ";
-    }
-    cout<<endl;
-}
-template <typename T>
 void Stack<T>::push(T x){
-    if(top == size-1)
-        cout<<"Stack Overflow\n";
+    Node<T>*t = new Node<T>;
+    if(t==NULL)
+        cout<<"Stack is Full\n";
     else{
-        top ++;
-        s[top]=x;
-        cnt++;
+        t->data = x;
+        t->next = top;
+        top = t;
+        size++;
     }
 }
 template <typename T>
 T Stack<T>::pop(){
     T x;
-    if(top==-1)
+    if(top == NULL)
         cout<<"Stack is empty\n";
     else{
-        x=s[top--];
-        cnt--;
+        x=top->data;
+        Node<T> *t=top;
+        top = top->next;
+        size--;
+        delete t;
     }
     return x;
 }
 template <typename T>
-int Stack<T>::isEmpty(){
-    if(top==-1)
-        return 1;
-    else
-        return 0;
+void Stack<T>::Display(){
+    Node<T> *p=top;
+    while(p!=NULL){
+        cout<<p->data<<" ";
+        p=p->next;
+    }
+    cout<<endl;
 }
 template <typename T>
-int Stack<T>::isFull(){
-    return top == size - 1;
+bool Stack<T>::isFull() {
+    Node<T> *t =new Node<T>;
+    int r=t?1:0;
+    delete t;
+    return r;
 }
-template<typename T>
-T Stack<T>::Top() { // check again
-    if (!isEmpty())
-        return s[top];
-    else
-        return T();
+template <typename T>
+bool Stack<T>::isEmpty() {
+    return top?0:1;
+}
+template <typename T>
+T Stack<T>::Top(){
+    if(top)
+        return top->data;
+    return -1;
 }
 template <typename T>
 int Stack<T>::Size(){
-    return cnt;
+    return size;
 }
 template <typename T>
-void Stack<T>::Clear() {
-    while (top != -1){
+void Stack<T>::Clear(){
+    while(top!=NULL)
+    {
         pop();
     }
 }
-
 int main(){
     Stack<int> st;
-    st.Create(4);
     st.push(10);
     st.push(20);
     st.push(30);
     st.push(40);
-    st.push(40);
-//    st.pop();
-    cout<<st.Top()<<endl;
-    cout<<st.Size()<<endl;
-    st.Clear();
-    if(st.isEmpty())
-        cout<<"YES"<<endl;
-    else
-        cout<<"No"<<endl;
-    if(st.isFull())
-        cout<<"YES"<<endl;
-    else
-        cout<<"No"<<endl;
-
+    cout<<st.isEmpty()<<endl;
+    cout<<st.isFull()<<endl;
+    st.Display();
 
 
     Stack<string> strStack;
-    strStack.Create(3);
     strStack.push("Hello");
     strStack.push("World");
-//    strStack.Clear();
-    cout << strStack.Top() << endl;
-    cout << strStack.Size() << endl;
-    strStack.display();
-    return 0;
+    cout<<strStack.isFull()<<endl;
+    cout<<strStack.isEmpty()<<endl;
+    strStack.Display();
 }
