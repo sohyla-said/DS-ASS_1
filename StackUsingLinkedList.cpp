@@ -1,30 +1,32 @@
-// Stack using linked list
-
 #include<bits/stdc++.h>
 using namespace std;
 
+// Stack using linked list
+template <typename T>
 class Node{
 public:
-    int data;
-    Node *next;
+    T data;
+    Node<T> *next;
 };
+template <typename T>
 class Stack{
 private:
-    Node *top;
+    Node <T>*top;
     int size=0;
 public:
     Stack(){top = NULL;}
-    void push(int x);
-    int pop();
+    void push(T x);
+    T pop();
     void Display();
-    int isFull();
-    int isEmpty();
-    int Size();
-    int Top();
+    T isFull();
+    T isEmpty();
+    T Size();
+    T Top();
     void Clear();
 };
-void Stack::push(int x){
-    Node*t = new Node;
+template <typename T>
+void Stack<T>::push(T x){
+    Node<T>*t = new Node<T>;
     if(t==NULL)
         cout<<"Stack is Full\n";
     else{
@@ -34,56 +36,69 @@ void Stack::push(int x){
         size++;
     }
 }
-int Stack::pop(){
-    int x=-1;
+template <typename T>
+T Stack<T>::pop(){
+    T x;
     if(top == NULL)
         cout<<"Stack is empty\n";
     else{
         x=top->data;
-        Node *t=top;
+        Node<T> *t=top;
         top = top->next;
         size--;
         delete t;
     }
     return x;
 }
-void Stack::Display(){
-    Node *p=top;
+template <typename T>
+void Stack<T>::Display(){
+    Node<T> *p=top;
     while(p!=NULL){
         cout<<p->data<<" ";
         p=p->next;
     }
     cout<<endl;
 }
-int Stack::isFull() {
-    Node *t =new Node;
+template <typename T>
+T Stack<T>::isFull() {
+    Node<T> *t =new Node<T>;
     int r=t?1:0;
     delete t;
     return r;
 }
-int Stack::isEmpty() {
+template <typename T>
+T Stack<T>::isEmpty() {
     return top?0:1;
 }
-int Stack::Top(){
+template <typename T>
+T Stack<T>::Top(){
     if(top)
         return top->data;
     return -1;
 }
-int Stack::Size(){
+template <typename T>
+T Stack<T>::Size(){
     return size;
 }
-void Stack::Clear(){
+template <typename T>
+void Stack<T>::Clear(){
     while(top!=NULL)
     {
         pop();
     }
 }
 int main(){
-    Stack st;
+    Stack<int> st;
     st.push(10);
     st.push(20);
     st.push(30);
     st.push(40);
     cout<<st.isEmpty()<<endl;
     st.Display();
+
+
+    Stack<string> strStack;
+    strStack.push("Hello");
+    strStack.push("World");
+    strStack.Display();
 }
