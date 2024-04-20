@@ -1,38 +1,40 @@
-// Stack using Array
-
 #include<bits/stdc++.h>
 using namespace std;
-
+// Stack using Array
+template <typename T>
 class Stack{
 private:
     int size;
     int top;
-    int *s;
+    T *s;
     int cnt =0;
 public:
     Stack(){top = NULL;}
-    void Create(int sizee);
-    void push(int x);
-    int pop();
+    void Create(int size);
+    void push(T x);
+    T pop();
     void display();
     int isEmpty();
     int isFull();
-    int Top();
+    T Top();
     int Size();
     void Clear();
 };
-void Stack::Create(int size){
+template <typename T>
+void Stack<T>::Create(int size){
     this->size = size;
     top = -1;
-    s = new int[size];
+    s = new T[size];
 }
-void Stack::display(){
+template <typename T>
+void Stack<T>::display(){
     for(int i=top;i>=0;i--){
         cout<<s[i]<<" ";
     }
     cout<<endl;
 }
-void Stack::push(int x){
+template <typename T>
+void Stack<T>::push(T x){
     if(top == size-1)
         cout<<"Stack Overflow\n";
     else{
@@ -41,8 +43,9 @@ void Stack::push(int x){
         cnt++;
     }
 }
-int Stack::pop(){
-    int x=-1;
+template <typename T>
+T Stack<T>::pop(){
+    T x;
     if(top==-1)
         cout<<"Stack is empty\n";
     else{
@@ -51,42 +54,47 @@ int Stack::pop(){
     }
     return x;
 }
-int Stack::isEmpty(){
+template <typename T>
+int Stack<T>::isEmpty(){
     if(top==-1)
         return 1;
     else
         return 0;
 }
-int Stack::isFull(){
+template <typename T>
+int Stack<T>::isFull(){
     return top == size - 1;
 }
-int Stack::Top(){
-    if(!isEmpty())
+template<typename T>
+T Stack<T>::Top() { // check again
+    if (!isEmpty())
         return s[top];
     else
-        return -1;
+        return T();
 }
-int Stack::Size(){
+template <typename T>
+int Stack<T>::Size(){
     return cnt;
 }
-
-void Stack::Clear() {
+template <typename T>
+void Stack<T>::Clear() {
     while (top != -1){
         pop();
     }
 }
 
 int main(){
-    Stack st;
+    Stack<int> st;
     st.Create(4);
     st.push(10);
     st.push(20);
     st.push(30);
     st.push(40);
     st.push(40);
-    st.pop();
+//    st.pop();
     cout<<st.Top()<<endl;
     cout<<st.Size()<<endl;
+    st.Clear();
     if(st.isEmpty())
         cout<<"YES"<<endl;
     else
@@ -95,5 +103,16 @@ int main(){
         cout<<"YES"<<endl;
     else
         cout<<"No"<<endl;
+
+
+
+    Stack<string> strStack;
+    strStack.Create(3);
+    strStack.push("Hello");
+    strStack.push("World");
+//    strStack.Clear();
+    cout << strStack.Top() << endl;
+    cout << strStack.Size() << endl;
+    strStack.display();
     return 0;
 }
