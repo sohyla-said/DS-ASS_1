@@ -1,4 +1,4 @@
-// Double Linked List 
+// Double Linked List
 #include <bits/stdc++.h>
 using namespace std;
 template <class T>
@@ -48,7 +48,7 @@ public:
 template <class T>
 void DoubleLinkedList<T>::insertAtHead(T element){
     Node<T>* newNode = new Node<T>(element);
-    if (head == nullptr) {
+    if (head == NULL) {
         head = newNode;
         last = newNode;
     } else {
@@ -83,6 +83,7 @@ void DoubleLinkedList<T>::insertAt(T element, int index) {
     } else if (index == size) {
         insertAtTail(element);
     } else {
+        Node<T> *newNode = new Node<T>(element);
         Node<T>* current = head;
         int i = 0;
         while (i < index - 1 && current != NULL) {
@@ -90,10 +91,10 @@ void DoubleLinkedList<T>::insertAt(T element, int index) {
             i++;
         }
         if (current == NULL) {
-            std::cerr << "Index out of list"<<endl;
+            cerr << "Index out of list"<<endl;
             return;
         }
-        Node<T> *newNode = new Node<T>(element);
+
         newNode->next = current->next;
         newNode->prev = current;
         current->next->prev = newNode;
@@ -235,49 +236,19 @@ void DoubleLinkedList<T>::swap(T firstItemIdx, T secondItemIdx) {
         cerr << "sorry, items with same index can not be swapped!" << endl;
         return;
     }
-    Node<T>* current = head;
-    Node<T>* trialcurrent = head;
-
-    while (current && trialcurrent) {
-        if (current->data == firstItemIdx && trialcurrent->data == secondItemIdx) {
-            // to Swap pointers but not data!
-            Node<T>* tempNext = current->next;
-            Node<T>* tempPrev = current->prev;
-
-            current->next = trialcurrent->next;
-            if (current->next) {
-                current->next->prev = current;
-            }
-            current->prev = trialcurrent->prev;
-            if (current->prev) {
-                current->prev->next = current;
-            }
-
-            trialcurrent->next = tempNext;
-            if (trialcurrent->next) {
-                trialcurrent->next->prev = trialcurrent;
-            }
-            trialcurrent->prev = tempPrev;
-            if (trialcurrent->prev) {
-                trialcurrent->prev->next = trialcurrent;
-            }
-
-            // Update head and last if needed
-            if (head == current) {
-                head = trialcurrent;
-            } else if (head == trialcurrent) {
-                head = current;
-            }
-            if (last == current) {
-                last = trialcurrent;
-            } else if (last == trialcurrent) {
-                last = current;
-            }
-            return;
-        }
-        current = current->next;
-        trialcurrent = trialcurrent->next;
+    Node<T>* firstNode = head;
+    for (int i = 0; i < firstItemIdx; i++) {
+        firstNode = firstNode->next;
     }
+
+    Node<T>* secondNode = head;
+    for (int i = 0; i < secondItemIdx; i++) {
+        secondNode = secondNode->next;
+    }
+
+    T temp = firstNode->data;
+    firstNode->data = secondNode->data;
+    secondNode->data = temp;
 }
 
 
@@ -348,8 +319,8 @@ int main() {
 
     dll.swap(0, 1);
     dll.print(); //100 10 30
-    
+
     //dll.clear();
-    
+
     return 0;
 }
