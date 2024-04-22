@@ -1,11 +1,9 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <string>
-#include <algorithm>
+
+
+#include <bits/stdc++.h>
+#include <chrono>
 
 using namespace std;
-
 // Template for a generic Student object
 template <typename T>
 class Student {
@@ -22,12 +20,10 @@ public:
         gpa = studentGpa;
     }
 
-    // Overloading operator < for sorting based on the template type
-    bool operator<(const Student<T>& other) const {
+    bool operator>(const Student<T>& other) const {
         // Sort by name by default
-        return name < other.name;
+        return name > other.name;
     }
-
 
     // Friend function for printing
     friend ostream& operator<<(ostream& os, const Student<T>& s) {
@@ -38,7 +34,7 @@ public:
     string getID() const {
         return id;
     }
-    string getName() const {  // Consistent naming convention
+    string getName() const {
         return name;
     }
     const double getGPA()const{
@@ -46,22 +42,21 @@ public:
     }
 };
 
-// Function to sort students using template-based comparison
+
 template <class T>
-void insertionSort(vector<Student<T>>& students) {
+void insertionSort(vector<Student<T>>& students, bool sortByGPA , int& comparisons) {
     for (int i = 1; i < students.size(); i++) {
         Student<T> key = students[i];
         int j = i - 1;
-        while (j >= 0 && key < students[j]) {
+        while (j >= 0 && ((sortByGPA && students[j].getGPA() < key.getGPA()) || (!sortByGPA && students[j] > key))) {
             students[j + 1] = students[j];
             j = j - 1;
+            comparisons++;
         }
         students[j + 1] = key;
     }
 }
-bool compareGPA(const Student<double>& a, const Student<double>& b) {
-    return a.getGPA() > b.getGPA();
-}
+
 template <typename T>
 void print(ostream& os, const vector<T>& students) {
     for (const T& student : students) {
@@ -97,33 +92,58 @@ int main() {
 
     infile.close();
 
-    // Sort by name
-    insertionSort(students);
+    // Menu for selecting sorting algorithm
+    cout << "Select a sorting algorithm:" << endl;
+    cout << "1. Insertion Sort" << endl;
+    cout << "2. Selection Sort" << endl;
+    cout << "3. Bubble Sort" << endl;
+    cout << "4. Shell Sort" << endl;
+    cout << "5. Merge Sort" << endl;
+    cout << "6. Quick Sort" << endl;
+    cout << "7. Count Sort" << endl;
 
-    ofstream nameFile("SortedByName.txt");
-    if (!nameFile.is_open()) {
-        cerr << "Error opening file 'SortedByName.txt'" << endl;
-        return 1;
+    int comparisons = 0;
+    int choice;
+    cout << "Enter your choice (1-7): ";
+    cin >> choice;
+
+    cout << "Sort by:" << endl;
+    cout << "1. Name" << endl;
+    cout << "2. GPA" << endl;
+    cout << "Enter your choice (1-2): ";
+    int sortBy;
+    cin >> sortBy;
+    bool sortByGPA = sortBy == 2;
+
+    switch (choice) {
+        case 1: {
+            auto start = chrono::high_resolution_clock::now();
+            insertionSort(students, sortByGPA, comparisons);
+            auto stop = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
+
+            string fileName = sortByGPA ? "SortedByGPA_InsertionSort.txt" : "SortedByName_InsertionSort.txt";
+            ofstream outputFile(fileName);
+            if (!outputFile.is_open()) {
+                cerr << "Error opening file '" << fileName << "'" << endl;
+                return 1;
+            }
+
+
+            outputFile << "Insertion Sort"<<endl;
+            outputFile << "Number of comparisons: " << comparisons << endl;
+            outputFile << "Running Time (microseconds): " << duration.count() << endl;
+            outputFile << (sortByGPA ? "Students Sorted By GPA:\n" : "Students Sorted By Name:\n");
+            print(outputFile, students);
+            outputFile.close();
+            break;
+        }
+            // Add cases for other sorting algorithms similarly
+        default:
+            cout << "Invalid choice!" << endl;
+            break;
     }
 
-    nameFile << "Students Sorted By Name:\n";
-    print(nameFile, students);
-    nameFile.close();
-
-    // Sort by GPA
-    sort(students.begin(), students.end(), compareGPA);
-
-    ofstream gpaFile("SortedByGPA.txt");
-    if (!gpaFile.is_open()) {
-        cerr << "Error opening file 'SortedByGPA.txt'" << endl;
-        return 1;
-    }
-
-    gpaFile << "Students Sorted By GPA (Descending):\n";
-    print(gpaFile, students);
-    gpaFile.close();
-
-    cout << "Student data sorted and written to files successfully!" << endl;
-
+    cout << "Student data sorted and written to file successfully!!" << endl;
     return 0;
 }
