@@ -1,149 +1,327 @@
-
+// Single Linked List
 #include <bits/stdc++.h>
-#include <chrono>
-
 using namespace std;
-// Template for a generic Student object
-template <typename T>
-class Student {
-private:
-    string id;
-    string name;
-    double gpa;
-
+template <class T>
+class Node {
 public:
-    // Constructor
-    Student(string studentId, string studentName, T studentGpa) {
-        id = studentId;
-        name = studentName;
-        gpa = studentGpa;
-    }
+    T data;
+    Node<T>* next;
 
-    bool operator>(const Student<T>& other) const {
-        // Sort by name by default
-        return name > other.name;
-    }
-
-    // Friend function for printing
-    friend ostream& operator<<(ostream& os, const Student<T>& s) {
-        os << "ID: " << s.id << ", Name: " << s.name << ", GPA: " << s.gpa;
-        return os;
-    }
-
-    string getID() const {
-        return id;
-    }
-    string getName() const {
-        return name;
-    }
-    const double getGPA()const{
-        return gpa;
+    Node(T element) {
+        data = element;
+        next = NULL;
     }
 };
 
+template <class T>
+class SingleLinkedList {
+private:
+    Node<T>* head;
+    int size;
+
+public:
+    SingleLinkedList() {
+        head = NULL;
+        size = 0;
+    }
+
+    // Destructor
+    ~SingleLinkedList() {
+        Node<T>* current = head;
+        while (current) {
+            Node<T>* temp = current;
+            current = current->next;
+            delete temp;
+        }
+    }
+
+    void insertAtHead(T element);
+    void insertAtTail(T element);
+    void insertAt(T element, int index);
+    void removeAtHead();
+    void removeAtTail();
+    void removeAt(int index);
+    T retrieveAt(int index);
+    void replaceAt(T newElement, int index);
+    bool isExist(T element);
+    bool isItemAtEqual(T element, int index);
+    void swap(int firstItemIdx, int secondItemIdx);
+    bool isEmpty();
+    int Size();
+    void clear();
+    void print();
+};
 
 template <class T>
-void insertionSort(vector<Student<T>>& students, bool sortByGPA , int& comparisons) {
-    for (int i = 1; i < students.size(); i++) {
-        Student<T> key = students[i];
-        int j = i - 1;
-        while (j >= 0 && ((sortByGPA && students[j].getGPA() < key.getGPA()) || (!sortByGPA && students[j] > key))) {
-            students[j + 1] = students[j];
-            j = j - 1;
-            comparisons++;
+void SingleLinkedList<T>::insertAtHead(T element) {
+    Node<T>* newNode = new Node<T>(element);
+    newNode->next = head;
+    head = newNode;
+    size++;
+}
+
+template <class T>
+void SingleLinkedList<T>::insertAtTail(T element) {
+    Node<T>* newNode = new Node<T>(element);
+    if (head == NULL) {
+        head = newNode;
+    } else {
+        Node<T>* temp = head;
+        while (temp->next != NULL) {
+            temp = temp->next;
         }
-        students[j + 1] = key;
+        temp->next = newNode;
+    }
+    size++;
+}
+
+template <class T>
+void SingleLinkedList<T>::insertAt(T element, int index) {
+    if (index < 0 || index > size) {
+        cerr << "Index out of list" <<endl;
+        return;
+    }
+    if (index == 0) {
+        insertAtHead(element);
+    } else if (index == size) {
+        insertAtTail(element);
+    } else {
+        Node<T>* newNode = new Node<T>(element);
+        Node<T>* current = head;
+        for (int i = 0; i < index - 1; i++) {
+            current = current->next;
+        }
+        newNode->next = current->next;
+        current->next = newNode;
+        size++;
+    }
+
+}
+
+template <class T>
+void SingleLinkedList<T>::removeAtHead() {
+    if (head == NULL) {
+        cerr << "List is empty, cannot delete from empty list" << endl;
+        return;
+    }
+    Node<T>* temp = head;
+    head = head->next;
+    delete temp;
+    size--;
+}
+
+template <class T>
+void SingleLinkedList<T>::removeAtTail() {
+    if (head == NULL) {
+        cerr << "List is empty, cannot delete from empty list" <<endl;
+        return;
+    }
+    if (head->next == NULL) {
+        delete head;
+        head = NULL;
+    } else {
+        Node<T>* temp = head;
+        while (temp->next->next != NULL) {
+            temp = temp->next;
+        }
+        delete temp->next;
+        temp->next = NULL;
+    }
+    size--;
+}
+
+template <class T>
+void SingleLinkedList<T>::removeAt(int index) {
+    if (index < 0 || index >= size) {
+        cerr << "Index out of list" << endl;
+        return;
+    }
+    if (index == 0) {
+        removeAtHead();
+    } else if (index == size - 1) {
+        removeAtTail();
+    } else {
+        Node<T>* prev = NULL;
+        Node<T>* del = head;
+        for(int i = 0; i < index && del != NULL; ++i) {
+            prev = del;
+            del = del->next;
+        }
+        prev->next = del->next;
+        delete del;
+        size--;
     }
 }
 
-template <typename T>
-void print(ostream& os, const vector<T>& students) {
-    for (const T& student : students) {
-        os << student << endl;
+template <class T>
+T SingleLinkedList<T>::retrieveAt(int index) {
+    if (index < 0 || index >= size) {
+        cerr << "Index out of list" <<endl;
+        return T();
     }
+    Node<T>* current = head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
+    }
+    return current->data;
 }
 
+template <class T>
+void SingleLinkedList<T>::replaceAt(T newElement, int index) {
+    if (index < 0 || index >= size) {
+        cerr << "Index out of list" << endl;
+        return;
+    }
+    Node<T>* current = head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
+    }
+    current->data = newElement;
+}
+
+template <class T>
+bool SingleLinkedList<T>::isExist(T element) {
+    Node<T>* current = head;
+    while (current != NULL) {
+        if (current->data == element) {
+            return true;
+        }
+        current = current->next;
+    }
+    return false;
+}
+
+template <class T>
+bool SingleLinkedList<T>::isItemAtEqual(T element, int index) {
+    if (index < 0 || index >= size) {
+        cerr << "Index out of list" << endl;
+        return false;
+    }
+    Node<T>* current = head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
+    }
+    return current->data == element;
+}
+
+template <class T>
+void SingleLinkedList<T>::swap(int firstItemIdx, int secondItemIdx) {
+    if (firstItemIdx < 0 || firstItemIdx >= size || secondItemIdx < 0 || secondItemIdx >= size) {
+        cerr << "Index out of list" << endl;
+        return;
+    }
+    if (firstItemIdx == secondItemIdx) {
+        cerr << "Items with the same index cannot be swapped!" << endl;
+        return;
+    }
+
+    Node<T>* current = head;
+    Node<T>* firstPrev = NULL;
+    Node<T>* secondPrev = NULL;
+    Node<T>* firstNode = NULL;
+    Node<T>* secondNode = NULL;
+
+    for (int i = 0; i <= max(firstItemIdx, secondItemIdx); i++) {
+        if (i == firstItemIdx - 1) {
+            firstPrev = current;
+        }
+        if (i == firstItemIdx) {
+            firstNode = current;
+        }
+        if (i == secondItemIdx - 1) {
+            secondPrev = current;
+        }
+        if (i == secondItemIdx) {
+            secondNode = current;
+        }
+        current = current->next;
+    }
+
+    // Swapping the nodes
+    if (firstPrev != NULL) {
+        firstPrev->next = secondNode;
+    } else {
+        head = secondNode;
+    }
+    if (secondPrev != NULL) {
+        secondPrev->next = firstNode;
+    } else {
+        head = firstNode;
+    }
+
+    Node<T>* temp = secondNode->next;
+    secondNode->next = firstNode->next;
+    firstNode->next = temp;
+}
+
+template <class T>
+bool SingleLinkedList<T>::isEmpty() {
+    return head == NULL;
+}
+
+template <class T>
+int SingleLinkedList<T>::Size() {
+    return size;
+}
+
+template <class T>
+void SingleLinkedList<T>::clear() {
+    while (head != NULL) {
+        Node<T>* temp = head;
+        head = head->next;
+        delete temp;
+    }
+    size = 0;
+}
+
+template <class T>
+void SingleLinkedList<T>::print() {
+    Node<T>* temp = head;
+    while (temp != NULL) {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    cout << endl;
+}
 
 int main() {
-    // Read student data from file (students.txt)
-    ifstream infile("students.txt");
-    if (!infile.is_open()) {
-        cerr << "Error opening file 'students.txt'" << endl;
-        return 1;
+    SingleLinkedList<int> sll;
+    if (sll.isEmpty()) {
+        cout << "List is empty!" << endl;
+    } else {
+        cout << "List is not empty!" << endl;
+    }
+    sll.insertAtHead(10);
+    sll.insertAtTail(20);
+    sll.insertAtTail(30);
+    sll.insertAt(25, 2);
+    sll.print();
+    sll.removeAt(1);
+    sll.print();
+    cout << "Item at index 1: " << sll.retrieveAt(1) << endl;
+    sll.replaceAt(100, 1);
+    sll.print();
+
+    if (sll.isExist(11)) {
+        cout << "Element is found!" << endl;
+    } else {
+        cout << "Element not found!" << endl;
     }
 
-    int numStudents;
-    infile >> numStudents;
-    infile.ignore();
+    cout << "The size of list is: " << sll.Size() << endl;
 
-    vector<Student<double>> students;  // Use double for GPA
-
-    for (int i = 0; i < numStudents; ++i) {
-        string name, id;
-        double gpa;
-        getline(infile, name);  // Read entire line for full name
-        getline(infile, id);
-        infile >> gpa;
-        infile.ignore();  // Consume newline character
-
-        students.push_back(Student<double>(id, name, gpa));
+    if (sll.isItemAtEqual(10, 0)) {
+        cout << "Element is at equal!" << endl;
+    } else {
+        cout << "Element not at equal!" << endl;
     }
 
-    infile.close();
+    sll.swap(0, 1);
+    sll.print();
 
-    // Menu for selecting sorting algorithm
-    cout << "Select a sorting algorithm:" << endl;
-    cout << "1. Insertion Sort" << endl;
-    cout << "2. Selection Sort" << endl;
-    cout << "3. Bubble Sort" << endl;
-    cout << "4. Shell Sort" << endl;
-    cout << "5. Merge Sort" << endl;
-    cout << "6. Quick Sort" << endl;
-    cout << "7. Count Sort" << endl;
+    // sll.clear();
 
-    int comparisons = 0;
-    int choice;
-    cout << "Enter your choice (1-7): ";
-    cin >> choice;
-
-    cout << "Sort by:" << endl;
-    cout << "1. Name" << endl;
-    cout << "2. GPA" << endl;
-    cout << "Enter your choice (1-2): ";
-    int sortBy;
-    cin >> sortBy;
-    bool sortByGPA = sortBy == 2;
-
-    switch (choice) {
-        case 1: {
-            auto start = chrono::high_resolution_clock::now();
-            insertionSort(students, sortByGPA, comparisons);
-            auto stop = chrono::high_resolution_clock::now();
-            auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
-
-            string fileName = sortByGPA ? "SortedByGPA_InsertionSort.txt" : "SortedByName_InsertionSort.txt";
-            ofstream outputFile(fileName);
-            if (!outputFile.is_open()) {
-                cerr << "Error opening file '" << fileName << "'" << endl;
-                return 1;
-            }
-
-
-            outputFile << "Insertion Sort"<<endl;
-            outputFile << "Number of comparisons: " << comparisons << endl;
-            outputFile << "Running Time (microseconds): " << duration.count() << endl;
-            outputFile << (sortByGPA ? "Students Sorted By GPA:\n" : "Students Sorted By Name:\n");
-            print(outputFile, students);
-            outputFile.close();
-            break;
-        }
-            // Add cases for other sorting algorithms similarly
-        default:
-            cout << "Invalid choice!" << endl;
-            break;
-    }
-
-    cout << "Student data sorted and written to file successfully!!" << endl;
     return 0;
 }
+
 
