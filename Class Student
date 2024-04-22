@@ -1,6 +1,8 @@
-#include <iostream>
-using namespace std;
+#include <bits/stdc++.h>
+#include <chrono>
 
+using namespace std;
+// Template for a generic Student object
 template <typename T>
 class Student {
 private:
@@ -19,9 +21,13 @@ public:
     // Overloading operator < for sorting based on the template type
     bool operator<(const Student<T>& other) const {
         // Sort by name by default
-        return name < other.name;
+        return name > other.name;
     }
 
+    bool operator>(const Student<T>& other) const {
+        // Sort by name by default
+        return name > other.name;
+    }
 
     // Friend function for printing
     friend ostream& operator<<(ostream& os, const Student<T>& s) {
@@ -32,7 +38,7 @@ public:
     string getID() const {
         return id;
     }
-    string getName() const {  // Consistent naming convention
+    string getName() const {
         return name;
     }
     const double getGPA()const{
