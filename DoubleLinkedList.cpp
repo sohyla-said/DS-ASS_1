@@ -27,6 +27,11 @@ public:
         size = 0;
 
     }
+    ~DoubleLinkedList() { // Destructor
+        clear();
+    }
+
+
     void insertAtHead (T element);
     void insertAtTail (T element);
     void insertAt (T element, int index);
