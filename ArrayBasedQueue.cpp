@@ -66,7 +66,7 @@ void Queue<T>::print() {
                 cout<<arr[i]<<' ';
             for(int i=0;i<=last;i++)
                 cout<<arr[i]<<' ';
-    }
+        }
         cout<<endl;
     }
 }
@@ -136,58 +136,58 @@ public:
         return os;
     }
 };
-// int main() {
-//     Queue<int> q1(4);
-//     q1.enqueue(1);
-//     q1.enqueue(2);
-//     q1.enqueue(3);
-//     q1.enqueue(4);
-//     q1.print();
-//     cout<<q1.dequeue()<<endl;
-//     q1.enqueue(7);
-//     q1.print();
-//     cout<<q1.Size()<<endl;
-//     cout<<q1.front()<<' '<<q1.back()<<endl;
-//     // q1.clear();
-//     // q1.print();
-//     cout<<q1.dequeue()<<endl;
-//     cout<<q1.dequeue()<<endl;
-//     cout<<q1.Size()<<endl;
-//     cout<<q1.dequeue()<<endl;
-//     cout<<q1.dequeue()<<endl;
+ int main() {
+     Queue<int> q1(4);
+     q1.enqueue(1);
+     q1.enqueue(2);
+     q1.enqueue(3);
+     q1.enqueue(4);
+     q1.print();
+     cout<<q1.dequeue()<<endl;
+     q1.enqueue(7);
+     q1.print();
+     cout<<q1.Size()<<endl;
+     cout<<q1.front()<<' '<<q1.back()<<endl;
+     // q1.clear();
+     // q1.print();
+     cout<<q1.dequeue()<<endl;
+     cout<<q1.dequeue()<<endl;
+     cout<<q1.Size()<<endl;
+     cout<<q1.dequeue()<<endl;
+     cout<<q1.dequeue()<<endl;
 
-    // cout<<q1.front()<<' '<<q1.back()<<endl;
-    // cout<<q1.Size();
+ cout<<q1.front()<<' '<<q1.back()<<endl;
+ cout<<q1.Size();
 
-    // Queue<string> q2(5);
-    // q2.print();
-    // q2.enqueue("sohyla");
-    // q2.enqueue("ahmed");
-    // q2.enqueue("farida");
-    // q2.enqueue("farah");
-    // q2.enqueue("sandy");
-    // q2.enqueue("hassan");
-    // q2.print();
-    // cout<<"size: "<<q2.Size();
-    // cout<<q2.dequeue()<<endl;
-    // cout<<q2.dequeue()<<endl;
-    // cout<<q2.dequeue()<<endl;
-    // q2.enqueue("hassan");
-    // q2.print();
-    // cout<<"size: "<<q2.Size()<<endl;
-    // cout<<q2.isFull()<<endl;
+ Queue<string> q2(5);
+ q2.print();
+ q2.enqueue("sohyla");
+ q2.enqueue("ahmed");
+ q2.enqueue("farida");
+ q2.enqueue("farah");
+ q2.enqueue("sandy");
+ q2.enqueue("hassan");
+ q2.print();
+ cout<<"size: "<<q2.Size();
+ cout<<q2.dequeue()<<endl;
+ cout<<q2.dequeue()<<endl;
+ cout<<q2.dequeue()<<endl;
+ q2.enqueue("hassan");
+ q2.print();
+ cout<<"size: "<<q2.Size()<<endl;
+ cout<<q2.isFull()<<endl;
 
-    // test t1(1,1);
-    // test t2(2,2);
-//     test t3(3,3);
-//     Queue<test> q3(3);
-//     q3.enqueue(t1);
-//     q3.enqueue(t2);
-//     q3.enqueue(t3);
-//     q3.enqueue(t1);
-//     q3.print();
-//     cout<<q3.front();
-//     cout<<q3.back();
-//     q3.dequeue();
-//     q3.print();
-// }
+ test t1(1,1);
+ test t2(2,2);
+     test t3(3,3);
+     Queue<test> q3(3);
+     q3.enqueue(t1);
+     q3.enqueue(t2);
+     q3.enqueue(t3);
+     q3.enqueue(t1);
+     q3.print();
+     cout<<q3.front();
+     cout<<q3.back();
+     q3.dequeue();
+     q3.print();
+ }

@@ -83,36 +83,36 @@ void Stack<T>::Clear() {
     }
 }
 
-// int main(){
-//     Stack<int> st;
-//     st.Create(4);
-//     st.push(10);
-//     st.push(20);
-//     st.push(30);
-//     st.push(40);
-//     st.push(40);
-// //    st.pop();
-//     cout<<st.Top()<<endl;
-//     cout<<st.Size()<<endl;
-//     st.Clear();
-//     if(st.isEmpty())
-//         cout<<"YES"<<endl;
-//     else
-//         cout<<"No"<<endl;
-//     if(st.isFull())
-//         cout<<"YES"<<endl;
-//     else
-//         cout<<"No"<<endl;
-//
-//
-//
-//     Stack<string> strStack;
-//     strStack.Create(3);
-//     strStack.push("Hello");
-//     strStack.push("World");
-//     strStack.Clear();
-//     cout << strStack.Top() << endl;
-//     cout << strStack.Size() << endl;
-//     strStack.display();
-//     return 0;
-// }
+int main(){
+    Stack<int> st;
+    st.Create(4);
+    st.push(10);
+    st.push(20);
+    st.push(30);
+    st.push(40);
+    st.push(40);
+//    st.pop();
+    cout<<st.Top()<<endl;
+    cout<<st.Size()<<endl;
+    st.Clear();
+    if(st.isEmpty())
+        cout<<"YES"<<endl;
+    else
+        cout<<"No"<<endl;
+    if(st.isFull())
+        cout<<"YES"<<endl;
+    else
+        cout<<"No"<<endl;
+
+
+
+    Stack<string> strStack;
+    strStack.Create(3);
+    strStack.push("Hello");
+    strStack.push("World");
+    strStack.Clear();
+    cout << strStack.Top() << endl;
+    cout << strStack.Size() << endl;
+    strStack.display();
+    return 0;
+}

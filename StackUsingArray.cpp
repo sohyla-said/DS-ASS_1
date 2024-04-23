@@ -87,21 +87,21 @@ void Stack<T>::Clear(){
         pop();
     }
 }
-// int main(){
-//     Stack<int> st;
-//     st.push(10);
-//     st.push(20);
-//     st.push(30);
-//     st.push(40);
-//     cout<<st.isEmpty()<<endl;
-//     cout<<st.isFull()<<endl;
-//     st.Display();
-//
-//
-//     Stack<string> strStack;
-//     strStack.push("Hello");
-//     strStack.push("World");
-//     cout<<strStack.isFull()<<endl;
-//     cout<<strStack.isEmpty()<<endl;
-//     strStack.Display();
-// }
+int main(){
+    Stack<int> st;
+    st.push(10);
+    st.push(20);
+    st.push(30);
+    st.push(40);
+    cout<<st.isEmpty()<<endl;
+    cout<<st.isFull()<<endl;
+    st.Display();
+
+
+    Stack<string> strStack;
+    strStack.push("Hello");
+    strStack.push("World");
+    cout<<strStack.isFull()<<endl;
+    cout<<strStack.isEmpty()<<endl;
+    strStack.Display();
+}

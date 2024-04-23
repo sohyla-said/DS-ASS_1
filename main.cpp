@@ -326,7 +326,7 @@ int main() {
             }
 
 
-            outputFile << "Quick Sort"<<endl;
+            outputFile << "Count Sort"<<endl;
             outputFile << "Number of comparisons: " << "It's non-comparison algorithm." << endl;
             outputFile << "Running Time (microseconds): " << duration.count() << endl;
             outputFile << (sortByGPA ? "Students Sorted By GPA:\n" : "Students Sorted By Name:\n");

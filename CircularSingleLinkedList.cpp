@@ -50,7 +50,7 @@ void CircularSingleLinkedList<T>::insertAtHead(T element) {
     Node<T>* newNode = new Node<T>(element);
     if (head == NULL) {
         head = newNode;
-        head->next = head; 
+        head->next = head;
     } else {
         newNode->next = head;
         Node<T>* temp = head;
@@ -108,7 +108,7 @@ void CircularSingleLinkedList<T>::removeAtHead() {
         return;
     }
     Node<T>* temp = head;
-    if (head->next == head) { 
+    if (head->next == head) {
         delete head;
         head = NULL;
     } else {
@@ -129,7 +129,7 @@ void CircularSingleLinkedList<T>::removeAtTail() {
         cerr << "List is empty, cannot delete from empty list" << endl;
         return;
     }
-    if (head->next == head) { 
+    if (head->next == head) {
         delete head;
         head = NULL;
     } else {
@@ -236,7 +236,7 @@ void CircularSingleLinkedList<T>::swap(int firstItemIdx, int secondItemIdx) {
     firstNode->data = secondNode->data;
     secondNode->data = temp;
 }
-  
+
 template <class T>
 bool CircularSingleLinkedList<T>::isEmpty() {
     return head == NULL;
@@ -264,7 +264,7 @@ void CircularSingleLinkedList<T>::print() {
     do {
         cout << current->data << " ";
         current = current->next;
-    } while (current != head); 
+    } while (current != head);
     cout << endl;
 }
 

@@ -1,0 +1,8 @@
+Selection Sort
+Number of comparisons: 6
+Running Time (microseconds): 4
+Students Sorted By Name:
+ID: 3541, Name: Ali, GPA: 3.5
+ID: 69712, Name: Mariam, GPA: 3.7
+ID: 97848, Name: Mohamed Kamal, GPA: 2.2
+ID: 78697, Name: Sara Ahmed, GPA: 3.1
