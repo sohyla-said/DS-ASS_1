@@ -23,7 +23,9 @@ public:
     int Size();
     T Top();
     void Clear();
+    ~Stack();
 };
+
 template <typename T>
 void Stack<T>::push(T x){
     Node<T>*t = new Node<T>;
@@ -87,6 +89,15 @@ void Stack<T>::Clear(){
         pop();
     }
 }
+template<class T>
+Stack<T>::~Stack() {
+    while (top != nullptr) {
+        Node<T>* temp = top;
+        top = top->next;
+        delete temp;
+    }
+}
+
 int main(){
     Stack<int> st;
     st.push(10);

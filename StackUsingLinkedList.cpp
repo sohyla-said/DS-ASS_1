@@ -19,6 +19,7 @@ public:
     T Top();
     int Size();
     void Clear();
+    ~Stack();
 };
 template <typename T>
 void Stack<T>::Create(int size){
@@ -82,7 +83,10 @@ void Stack<T>::Clear() {
         pop();
     }
 }
-
+template<class T>
+Stack<T>::~Stack() {
+    delete []s;
+}
 int main(){
     Stack<int> st;
     st.Create(4);

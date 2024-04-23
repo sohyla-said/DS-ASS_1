@@ -4,4 +4,5 @@ project(Studend)
 set(CMAKE_CXX_STANDARD 23)
 
 add_executable(Studend main.cpp
-        main.cpp)
+        main.cpp
+        StackUsingArray.cpp)
