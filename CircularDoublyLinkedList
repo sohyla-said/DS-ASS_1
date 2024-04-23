@@ -1,0 +1,314 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+template <class T>
+class Node {
+public:
+    T data;
+    Node<T>* next;
+    Node<T>* prev;
+
+    Node(T element) {
+        data = element;
+        next = NULL;
+        prev = NULL;
+    }
+};
+
+template <class T>
+class CircularDoubleLinkedList {
+private:
+    Node<T>* head;
+    int size;
+
+public:
+    CircularDoubleLinkedList() {
+        head = NULL;
+        size = 0;
+    }
+
+    ~CircularDoubleLinkedList() {
+        clear();
+    }
+
+    void insertAtHead(T element);
+    void insertAtTail(T element);
+    void insertAt(T element, int index);
+    void removeAtHead();
+    void removeAtTail();
+    void removeAt(int index);
+    T retrieveAt(int index);
+    void replaceAt(T newElement, int index);
+    bool isExist(T element);
+    bool isItemAtEqual(T element, int index);
+    void swap(int firstItemIdx, int secondItemIdx);
+    bool isEmpty();
+    int Size();
+    void clear();
+    void print();
+};
+
+template <class T>
+void CircularDoubleLinkedList<T>::insertAtHead(T element) {
+    Node<T>* newNode = new Node<T>(element);
+    if (head == NULL) {
+        head = newNode;
+        head->prev = head;
+        head->next = head;
+    } else {
+        newNode->next = head;
+        newNode->prev = head->prev;
+        head->prev->next = newNode;
+        head->prev = newNode;
+    }
+    size++;
+}
+
+template <class T>
+void CircularDoubleLinkedList<T>::insertAtTail(T element) {
+    if (head == NULL) {
+        insertAtHead(element);
+        return;
+    }
+    Node<T>* newNode = new Node<T>(element);
+    Node<T>* temp = head;
+    while (temp->next != head) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+    newNode->prev = temp;
+    newNode->next = head;
+    head->prev = newNode;
+    size++;
+}
+
+template <class T>
+void CircularDoubleLinkedList<T>::insertAt(T element, int index) {
+    if ( index > size||index < 0  ) {
+        cerr << "index out of the  list" << endl;
+        return;
+    }
+    if (index == 0) {
+        insertAtHead(element);
+    } else if (index == size) {
+        insertAtTail(element);
+    } else {
+        Node<T>* newNode = new Node<T>(element);
+        Node<T>* current = head;
+        for (int i = 0; i < index - 1; i++) {
+            current = current->next;
+        }
+        newNode->next = current->next;
+        newNode->prev = current;
+        current->next->prev = newNode;
+        current->next = newNode;
+        size++;
+    }
+}
+
+template <class T>
+void CircularDoubleLinkedList<T>::removeAtHead() {
+    if (head == NULL) {
+        cerr << "List is empty, cannot delete from empty list" << endl;
+        return;
+    }
+    Node<T>* temp = head;
+    if (head->next == head) { 
+        delete head;
+        head = NULL;
+    } else {
+        Node<T>* lastNode = head;
+        while (lastNode->next != head) {
+            lastNode = lastNode->next;
+        }
+        lastNode->next = head->next;
+        head->next->prev = lastNode;
+        head = head->next;
+        delete temp;
+    }
+    size--;
+}
+
+template <class T>
+void CircularDoubleLinkedList<T>::removeAtTail() {
+    if (head == NULL) {
+        cerr << "List is empty, cannot delete from empty list" << endl;
+        return;
+    }
+    if (head->next == head) { 
+        delete head;
+        head = NULL;
+    } else {
+        Node<T>* temp = head;
+        Node<T>* prev = NULL;
+        while (temp->next != head) {
+            prev = temp;
+            temp = temp->next;
+        }
+        prev->next = head;
+        delete temp;
+    }
+    size--;
+}
+template <class T>
+void CircularDoubleLinkedList<T>::removeAt(int index) {
+    if (index < 0 || index >= size) {
+        cerr << "Index out of the list" << endl;
+        return;
+    }
+    if (index == 0) {
+        removeAtHead();
+    } else if (index == size - 1) {
+        removeAtTail();
+    } else {
+        Node<T>* current = head;
+        for (int i = 0; i < index - 1; i++) {
+            current = current->next;
+        }
+        Node<T>* temp = current->next;
+        current->next = temp->next;
+        temp->next->prev = current;
+        delete temp;
+        size--;
+    }
+}
+template <class T>
+T CircularDoubleLinkedList<T>::retrieveAt(int index) {
+    if (index >= size || index < 0 ) {
+        cerr << "index out of the list " << endl;
+        return T();
+    }
+    Node<T>* current = head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
+    }
+    return current->data;
+}
+
+template <class T>
+void CircularDoubleLinkedList<T>::replaceAt(T newElement, int index) {
+    if (index >= size ||index < 0  ) {
+        cerr << "index out of the list" << endl;
+        return;
+    }
+    Node<T>* current =head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
+    }
+    current->data = newElement;
+}
+
+template <class T>
+bool CircularDoubleLinkedList<T>::isExist(T element) {
+    Node<T>* current = head;
+    do {
+        if (current->data == element) {
+            return true;
+        }
+        current = current->next;
+    } while (current != head);
+    return false;
+}
+
+template <class T>
+bool CircularDoubleLinkedList<T>::isItemAtEqual(T element, int index) {
+    if ( index >= size|| index < 0) {
+        cerr << "index out of the list" << endl;
+        return false;
+    }
+    Node<T>* current = head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
+    }
+    return current->data == element;
+}
+
+template <class T>
+void CircularDoubleLinkedList<T>::swap(int firstItemIdx, int secondItemIdx) {
+    if (firstItemIdx == secondItemIdx || isEmpty() || size == 1) {
+        return;
+    }
+
+    Node<T>* firstNode = head;
+    for (int i = 0; i < firstItemIdx; i++) {
+        firstNode = firstNode->next;
+    }
+
+    Node<T>* secondNode = head;
+    for (int i = 0; i < secondItemIdx; i++) {
+        secondNode = secondNode->next;
+    }
+
+    T temp = firstNode->data;
+    firstNode->data = secondNode->data;
+    secondNode->data = temp;
+}
+  
+template <class T>
+bool CircularDoubleLinkedList<T>::isEmpty() {
+    return head == NULL;
+}
+
+template <class T>
+int CircularDoubleLinkedList<T>::Size() {
+    return size;
+}
+
+template <class T>
+void CircularDoubleLinkedList<T>::clear() {
+    while (!isEmpty()) {
+        removeAtTail();
+    }
+}
+
+template <class T>
+void CircularDoubleLinkedList<T>::print() {
+    if (isEmpty()) {
+        cout << " The List is empty" << endl;
+        return;
+    }
+    Node<T>* current = head;
+    do {
+        cout << current->data << " ";
+        current = current->next;
+    } while (current != head); 
+    cout << endl;
+}
+
+int main() {
+    CircularDoubleLinkedList<int> cdll;
+    if (cdll.isEmpty()) {
+        cout << "List is empty!" << endl;
+    } else {
+        cout << "List is not empty!" << endl;
+    }
+    cdll.insertAtHead(10);
+    cdll.insertAtTail(20);
+    cdll.insertAtTail(30);
+    cdll.insertAt(25, 2);
+    cdll.print();
+    cdll.removeAt(1);
+    cdll.print();
+    cout << "Item at index 1: " << cdll.retrieveAt(1) << endl;
+    cdll.replaceAt(100, 1);
+    cdll.print();
+
+    if (cdll.isExist(11)) {
+        cout << "Element is found!" << endl;
+    } else {
+        cout << "Element not found!" << endl;
+    }
+
+    cout << "The size of list is: " << cdll.Size() << endl;
+
+    if (cdll.isItemAtEqual(10, 0)) {
+        cout << "Element is at equal!" << endl;
+    } else {
+        cout << "Element not at equal!" << endl;
+    }
+
+    cdll.swap(0, 1);
+    cdll.print();
+    // cdll.clear();
+    return 0;
+}
