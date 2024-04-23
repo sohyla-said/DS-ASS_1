@@ -108,7 +108,7 @@ Queue<T>::~Queue() {
     clear();
 }
 
-int main() {
+// int main() {
     // Queue<int> q1;
     // q1.enqueue(1);
     // q1.enqueue(2);
@@ -151,4 +151,4 @@ int main() {
     // cout<<q2.isEmpty()<<endl;
     // q2.clear();
     // cout<<boolalpha<<q2.isEmpty()<<endl;
-}
+// }
