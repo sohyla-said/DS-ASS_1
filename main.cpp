@@ -289,6 +289,7 @@ int main() {
             outputFile.close();
             break;
         }
+        
         case 3: {
             auto start = chrono::high_resolution_clock::now();
             BubbleSort(students, sortByGPA, comparisons);
@@ -311,6 +312,28 @@ int main() {
             outputFile.close();
             break;
         }
+
+     case 4: {
+    auto start = chrono::high_resolution_clock::now();
+    ShellSort(students, sortByGPA, comparisons);
+    auto stop = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
+
+    string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
+    ofstream outputFile(fileName);
+    if (!outputFile.is_open()) {
+        cerr << "Error opening file '" << fileName << "'" << endl;
+        return 1;
+    }
+
+    outputFile << "Shell Sort" << endl;
+    outputFile << "Number of comparisons: " << comparisons << endl;
+    outputFile << "Running Time (microseconds): " << duration.count() << endl;
+    outputFile << (sortByGPA ? "Students Sorted By GPA:\n" : "Students Sorted By Name:\n");
+    print(outputFile, students);
+    outputFile.close();
+    break;
+}
         case 6: {
             auto start = chrono::high_resolution_clock::now();
             QuickSort(students,0,students.size()-1,sortByGPA,comparisons);
