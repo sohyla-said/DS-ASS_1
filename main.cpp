@@ -86,6 +86,28 @@ void SelectionSort(vector<Student<T>> &students , bool sortByGPA , int & compari
     // no. of comparision = (n*(n-1))/2
     comparisons = (students.size()*(students.size()-1))/2;
 }
+
+template<typename T>
+void ShellSort(vector<Student<T>>& students, bool sortByGPA, int& comparisons) {
+    int n = students.size();
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+        for (int i = gap; i < n; ++i) {
+            Student<T> temp = students[i];
+            int k;
+            if (sortByGPA) {
+                for (k = i; k >= gap && students[k - gap].getGPA() < temp.getGPA(); k -= gap) {
+                    students[k] = students[k - gap];
+                }
+            } else {
+                for (k = i; k >= gap && students[k - gap] > temp; k -= gap) {
+                    students[k] = students[k - gap];
+                }
+            }
+            students[k] = temp;
+        }
+    }
+}
+
 template<typename T>
 int partition(vector<Student<T>> &students, int left, int right,bool sortByGPA, int &comparisons) {
     int i = left;
