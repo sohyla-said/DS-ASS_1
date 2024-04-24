@@ -109,6 +109,52 @@ void ShellSort(vector<Student<T>>& students, bool sortByGPA, int& comparisons) {
 }
 
 template<typename T>
+void merge(vector<Student<T>>& students, int left, int mid, int right, bool sortByGPA, int& comparisons) {
+    int const n1 = mid - left + 1;
+    int  const n2 = right - mid;
+
+    vector<Student<T>> L(n1), R(n2);
+
+    for (int i = 0; i < n1; i++)
+        L[i] = students[left + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = students[mid + 1 + j];
+
+    int i = 0; 
+    int j = 0; 
+    int k = left; 
+    while (i < n1 && j < n2) {
+        if ((sortByGPA && L[i].getGPA() >= R[j].getGPA()) || (!sortByGPA && L[i] < R[j])) {
+            students[k] = L[i];
+            i++;
+        } else {
+            students[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+    while (i < n1) {
+        students[k] = L[i];
+        i++;
+        k++;
+    }
+    while (j < n2) {
+        students[k] = R[j];
+        j++;
+        k++;
+    }
+}
+template<typename T>
+void MergeSort(vector<Student<T>>& students, int left, int right, bool sortByGPA, int& comparisons) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+        MergeSort(students, left, mid, sortByGPA, comparisons);
+        MergeSort(students, mid + 1, right, sortByGPA, comparisons);
+        merge(students, left, mid, right, sortByGPA, comparisons);
+    }
+}
+
+template<typename T>
 int partition(vector<Student<T>> &students, int left, int right,bool sortByGPA, int &comparisons) {
     int i = left;
     for(int j=left+1;j<=right;j++) {
