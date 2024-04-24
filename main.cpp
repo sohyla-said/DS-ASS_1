@@ -9,7 +9,6 @@ private:
     string id;
     string name;
     double gpa;
-
 public:
     // Constructor
     Student(){};
@@ -47,7 +46,6 @@ public:
         return static_cast<int>(gpa);
     }
 };
-
 
 template <class T>
 void insertionSort(vector<Student<T>>& students, bool sortByGPA , int& comparisons) {
@@ -97,10 +95,12 @@ void ShellSort(vector<Student<T>>& students, bool sortByGPA, int& comparisons) {
             if (sortByGPA) {
                 for (k = i; k >= gap && students[k - gap].getGPA() < temp.getGPA(); k -= gap) {
                     students[k] = students[k - gap];
+                    comparisons++;
                 }
             } else {
                 for (k = i; k >= gap && students[k - gap] > temp; k -= gap) {
                     students[k] = students[k - gap];
+                    comparisons++;
                 }
             }
             students[k] = temp;
@@ -120,9 +120,9 @@ void merge(vector<Student<T>>& students, int left, int mid, int right, bool sort
     for (int j = 0; j < n2; j++)
         R[j] = students[mid + 1 + j];
 
-    int i = 0; 
-    int j = 0; 
-    int k = left; 
+    int i = 0;
+    int j = 0;
+    int k = left;
     while (i < n1 && j < n2) {
         if ((sortByGPA && L[i].getGPA() >= R[j].getGPA()) || (!sortByGPA && L[i] < R[j])) {
             students[k] = L[i];
@@ -151,6 +151,7 @@ void MergeSort(vector<Student<T>>& students, int left, int right, bool sortByGPA
         MergeSort(students, left, mid, sortByGPA, comparisons);
         MergeSort(students, mid + 1, right, sortByGPA, comparisons);
         merge(students, left, mid, right, sortByGPA, comparisons);
+        comparisons+=(mid-left+1);
     }
 }
 
@@ -191,9 +192,9 @@ void QuickSort(vector<Student<T>> &students,int left, int right, bool sortByGPA,
 //         c[i]=0;
 //         cc[i]=0;
 //     }
-     // for(int j=1;j<=n;j++) {
-     //     c[(int)a[j]] ++;
-     // }
+// for(int j=1;j<=n;j++) {
+//     c[(int)a[j]] ++;
+// }
 //     cc[1]=c[1];
 //     for(int i=2;i<=k;i++) {
 //         cc[i]=c[i]+c[i-1];
@@ -294,10 +295,10 @@ int main() {
             auto start = chrono::high_resolution_clock::now();
             insertionSort(students, sortByGPA, comparisons);
             auto stop = chrono::high_resolution_clock::now();
-            auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
+            auto duration = chrono::duration_cast<chrono::microseconds >(stop - start);
 
             string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
-            ofstream outputFile(fileName);
+            ofstream outputFile(fileName,ios::app);
             if (!outputFile.is_open()) {
                 cerr << "Error opening file '" << fileName << "'" << endl;
                 return 1;
@@ -320,7 +321,7 @@ int main() {
             auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
 
             string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
-            ofstream outputFile(fileName);
+            ofstream outputFile(fileName,ios::app);
             if (!outputFile.is_open()) {
                 cerr << "Error opening file '" << fileName << "'" << endl;
                 return 1;
@@ -335,7 +336,7 @@ int main() {
             outputFile.close();
             break;
         }
-        
+
         case 3: {
             auto start = chrono::high_resolution_clock::now();
             BubbleSort(students, sortByGPA, comparisons);
@@ -343,7 +344,7 @@ int main() {
             auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
 
             string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
-            ofstream outputFile(fileName);
+            ofstream outputFile(fileName,ios::app);
             if (!outputFile.is_open()) {
                 cerr << "Error opening file '" << fileName << "'" << endl;
                 return 1;
@@ -359,49 +360,49 @@ int main() {
             break;
         }
 
-     case 4: {
-    auto start = chrono::high_resolution_clock::now();
-    ShellSort(students, sortByGPA, comparisons);
-    auto stop = chrono::high_resolution_clock::now();
-    auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
+        case 4: {
+            auto start = chrono::high_resolution_clock::now();
+            ShellSort(students, sortByGPA, comparisons);
+            auto stop = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
 
-    string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
-    ofstream outputFile(fileName);
-    if (!outputFile.is_open()) {
-        cerr << "Error opening file '" << fileName << "'" << endl;
-        return 1;
-    }
+            string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
+            ofstream outputFile(fileName,ios::app);
+            if (!outputFile.is_open()) {
+                cerr << "Error opening file '" << fileName << "'" << endl;
+                return 1;
+            }
 
-    outputFile << "Shell Sort" << endl;
-    outputFile << "Number of comparisons: " << comparisons << endl;
-    outputFile << "Running Time (microseconds): " << duration.count() << endl;
-    outputFile << (sortByGPA ? "Students Sorted By GPA:\n" : "Students Sorted By Name:\n");
-    print(outputFile, students);
-    outputFile.close();
-    break;
-}
+            outputFile << "Shell Sort" << endl;
+            outputFile << "Number of comparisons: " << comparisons << endl;
+            outputFile << "Running Time (microseconds): " << duration.count() << endl;
+            outputFile << (sortByGPA ? "Students Sorted By GPA:\n" : "Students Sorted By Name:\n");
+            print(outputFile, students);
+            outputFile.close();
+            break;
+        }
 
         case 5: {
-    auto start = chrono::high_resolution_clock::now();
-    MergeSort(students, 0, students.size() - 1, sortByGPA, comparisons);
-    auto stop = chrono::high_resolution_clock::now();
-    auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
+            auto start = chrono::high_resolution_clock::now();
+            MergeSort(students, 0, students.size() - 1, sortByGPA, comparisons);
+            auto stop = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
 
-    string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
-    ofstream outputFile(fileName);
-    if (!outputFile.is_open()) {
-        cerr << "Error opening file '" << fileName << "'" << endl;
-        return 1;
-    }
+            string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
+            ofstream outputFile(fileName,ios::app);
+            if (!outputFile.is_open()) {
+                cerr << "Error opening file '" << fileName << "'" << endl;
+                return 1;
+            }
 
-    outputFile << "Merge Sort" << endl;
-    outputFile << "Number of comparisons: " << comparisons << endl;
-    outputFile << "Running Time (microseconds): " << duration.count() << endl;
-    outputFile << (sortByGPA ? "Students Sorted By GPA:\n" : "Students Sorted By Name:\n");
-    print(outputFile, students);
-    outputFile.close();
-    break;
-}
+            outputFile << "Merge Sort" << endl;
+            outputFile << "Number of comparisons: " << comparisons << endl;
+            outputFile << "Running Time (microseconds): " << duration.count() << endl;
+            outputFile << (sortByGPA ? "Students Sorted By GPA:\n" : "Students Sorted By Name:\n");
+            print(outputFile, students);
+            outputFile.close();
+            break;
+        }
         case 6: {
             auto start = chrono::high_resolution_clock::now();
             QuickSort(students,0,students.size()-1,sortByGPA,comparisons);
@@ -409,7 +410,7 @@ int main() {
             auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
 
             string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
-            ofstream outputFile(fileName);
+            ofstream outputFile(fileName,ios::app);
             if (!outputFile.is_open()) {
                 cerr << "Error opening file '" << fileName << "'" << endl;
                 return 1;
@@ -432,7 +433,7 @@ int main() {
             auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
 
             string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
-            ofstream outputFile(fileName);
+            ofstream outputFile(fileName,ios::app);
             if (!outputFile.is_open()) {
                 cerr << "Error opening file '" << fileName << "'" << endl;
                 return 1;
@@ -455,3 +456,4 @@ int main() {
     cout << "Student data sorted and written to file successfully!!" << endl;
     return 0;
 }
+
