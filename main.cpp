@@ -177,33 +177,33 @@ void QuickSort(vector<Student<T>> &students,int left, int right, bool sortByGPA,
     QuickSort(students,left,pivot-1,sortByGPA,comparisons);
     QuickSort(students,pivot+1,right,sortByGPA,comparisons);
 }
-// void countSort(float a[],float b[],int n) {
-//     int max=0;
-//     int k;
-//     for(int i=1;i<n;i++) {
-//         if((int)a[i]>max) {
-//             max=(int)a[i];
-//             k=max;
-//         }
-//     }
-//     int c[k+1];
-//     int cc[k+1];
-//     for(int i=1;i<=k;i++) {
-//         c[i]=0;
-//         cc[i]=0;
-//     }
-// for(int j=1;j<=n;j++) {
-//     c[(int)a[j]] ++;
-// }
-//     cc[1]=c[1];
-//     for(int i=2;i<=k;i++) {
-//         cc[i]=c[i]+c[i-1];
-//     }
-//     for(int i=n;i>0;i--) {
-//         b[cc[(int)a[i]]] = a[i];
-//         cc[(int)a[i]]--;
-//     }
-// }
+/* void countSort(float a[],float b[],int n) {
+     int max=0;
+     int k;
+     for(int i=1;i<n;i++) {
+         if((int)a[i]>max) {
+             max=(int)a[i];
+             k=max;
+         }
+     }
+     int c[k+1];
+     int cc[k+1];
+     for(int i=1;i<=k;i++) {
+         c[i]=0;
+         cc[i]=0;
+     }
+ for(int j=1;j<=n;j++) {
+     c[(int)a[j]] ++;
+ }
+     cc[1]=c[1];
+     for(int i=2;i<=k;i++) {
+         cc[i]=c[i]+c[i-1];
+     }
+     for(int i=n;i>0;i--) {
+         b[cc[(int)a[i]]] = a[i];
+         cc[(int)a[i]]--;
+     }
+ }*/
 template<typename T>
 void CountSort(vector<Student<T>> &students,vector<Student<T>> &result) {
     int max=0;
@@ -241,7 +241,6 @@ void print(ostream& os, const vector<T>& students) {
 
 
 int main() {
-    // Read student data from file (students.txt)
     ifstream infile("students.txt");
     if (!infile.is_open()) {
         cerr << "Error opening file 'students.txt'" << endl;
@@ -267,193 +266,177 @@ int main() {
 
     infile.close();
 
-    // Menu for selecting sorting algorithm
-    cout << "Select a sorting algorithm:" << endl;
-    cout << "1. Insertion Sort" << endl;
-    cout << "2. Selection Sort" << endl;
-    cout << "3. Bubble Sort" << endl;
-    cout << "4. Shell Sort" << endl;
-    cout << "5. Merge Sort" << endl;
-    cout << "6. Quick Sort" << endl;
-    cout << "7. Count Sort" << endl;
+    int comparisons=0;
+    auto start = chrono::steady_clock::now();
+    insertionSort(students, false, comparisons);
+    auto stop = chrono::steady_clock::now();
+    auto diff =stop - start;
 
-    int comparisons = 0;
-    int choice;
-    cout << "Enter your choice (1-7): ";
-    cin >> choice;
-
-    cout << "Sort by:" << endl;
-    cout << "1. Name" << endl;
-    cout << "2. GPA" << endl;
-    cout << "Enter your choice (1-2): ";
-    int sortBy;
-    cin >> sortBy;
-    bool sortByGPA = sortBy == 2;
-
-    switch (choice) {
-        case 1: {
-            auto start = chrono::high_resolution_clock::now();
-            insertionSort(students, sortByGPA, comparisons);
-            auto stop = chrono::high_resolution_clock::now();
-            auto duration = chrono::duration_cast<chrono::microseconds >(stop - start);
-
-            string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
-            ofstream outputFile(fileName,ios::app);
-            if (!outputFile.is_open()) {
-                cerr << "Error opening file '" << fileName << "'" << endl;
-                return 1;
-            }
-
-
-            outputFile << "Insertion Sort"<<endl;
-            outputFile << "Number of comparisons: " << comparisons << endl;
-            outputFile << "Running Time (microseconds): " << duration.count() << endl;
-            outputFile << (sortByGPA ? "Students Sorted By GPA:\n" : "Students Sorted By Name:\n");
-            print(outputFile, students);
-            outputFile.close();
-            break;
-        }
-            // Add cases for other sorting algorithms similarly
-        case 2: {
-            auto start = chrono::high_resolution_clock::now();
-            SelectionSort(students, sortByGPA, comparisons);
-            auto stop = chrono::high_resolution_clock::now();
-            auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
-
-            string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
-            ofstream outputFile(fileName,ios::app);
-            if (!outputFile.is_open()) {
-                cerr << "Error opening file '" << fileName << "'" << endl;
-                return 1;
-            }
-
-
-            outputFile << "Selection Sort"<<endl;
-            outputFile << "Number of comparisons: " << comparisons << endl;
-            outputFile << "Running Time (microseconds): " << duration.count() << endl;
-            outputFile << (sortByGPA ? "Students Sorted By GPA:\n" : "Students Sorted By Name:\n");
-            print(outputFile, students);
-            outputFile.close();
-            break;
-        }
-
-        case 3: {
-            auto start = chrono::high_resolution_clock::now();
-            BubbleSort(students, sortByGPA, comparisons);
-            auto stop = chrono::high_resolution_clock::now();
-            auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
-
-            string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
-            ofstream outputFile(fileName,ios::app);
-            if (!outputFile.is_open()) {
-                cerr << "Error opening file '" << fileName << "'" << endl;
-                return 1;
-            }
-
-
-            outputFile << "Bubble Sort"<<endl;
-            outputFile << "Number of comparisons: " << comparisons << endl;
-            outputFile << "Running Time (microseconds): " << duration.count() << endl;
-            outputFile << (sortByGPA ? "Students Sorted By GPA:\n" : "Students Sorted By Name:\n");
-            print(outputFile, students);
-            outputFile.close();
-            break;
-        }
-
-        case 4: {
-            auto start = chrono::high_resolution_clock::now();
-            ShellSort(students, sortByGPA, comparisons);
-            auto stop = chrono::high_resolution_clock::now();
-            auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
-
-            string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
-            ofstream outputFile(fileName,ios::app);
-            if (!outputFile.is_open()) {
-                cerr << "Error opening file '" << fileName << "'" << endl;
-                return 1;
-            }
-
-            outputFile << "Shell Sort" << endl;
-            outputFile << "Number of comparisons: " << comparisons << endl;
-            outputFile << "Running Time (microseconds): " << duration.count() << endl;
-            outputFile << (sortByGPA ? "Students Sorted By GPA:\n" : "Students Sorted By Name:\n");
-            print(outputFile, students);
-            outputFile.close();
-            break;
-        }
-
-        case 5: {
-            auto start = chrono::high_resolution_clock::now();
-            MergeSort(students, 0, students.size() - 1, sortByGPA, comparisons);
-            auto stop = chrono::high_resolution_clock::now();
-            auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
-
-            string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
-            ofstream outputFile(fileName,ios::app);
-            if (!outputFile.is_open()) {
-                cerr << "Error opening file '" << fileName << "'" << endl;
-                return 1;
-            }
-
-            outputFile << "Merge Sort" << endl;
-            outputFile << "Number of comparisons: " << comparisons << endl;
-            outputFile << "Running Time (microseconds): " << duration.count() << endl;
-            outputFile << (sortByGPA ? "Students Sorted By GPA:\n" : "Students Sorted By Name:\n");
-            print(outputFile, students);
-            outputFile.close();
-            break;
-        }
-        case 6: {
-            auto start = chrono::high_resolution_clock::now();
-            QuickSort(students,0,students.size()-1,sortByGPA,comparisons);
-            auto stop = chrono::high_resolution_clock::now();
-            auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
-
-            string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
-            ofstream outputFile(fileName,ios::app);
-            if (!outputFile.is_open()) {
-                cerr << "Error opening file '" << fileName << "'" << endl;
-                return 1;
-            }
-
-
-            outputFile << "Quick Sort"<<endl;
-            outputFile << "Number of comparisons: " << comparisons << endl;
-            outputFile << "Running Time (microseconds): " << duration.count() << endl;
-            outputFile << (sortByGPA ? "Students Sorted By GPA:\n" : "Students Sorted By Name:\n");
-            print(outputFile, students);
-            outputFile.close();
-            break;
-        }
-        case 7: {
-            auto start = chrono::high_resolution_clock::now();
-            vector<Student<double>> result(students.size());
-            CountSort(students,result);
-            auto stop = chrono::high_resolution_clock::now();
-            auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
-
-            string fileName = sortByGPA ? "SortedByGPA.txt" : "SortedByName.txt";
-            ofstream outputFile(fileName,ios::app);
-            if (!outputFile.is_open()) {
-                cerr << "Error opening file '" << fileName << "'" << endl;
-                return 1;
-            }
-
-
-            outputFile << "Count Sort"<<endl;
-            outputFile << "Number of comparisons: " << "It's non-comparison algorithm." << endl;
-            outputFile << "Running Time (microseconds): " << duration.count() << endl;
-            outputFile << (sortByGPA ? "Students Sorted By GPA:\n" : "Students Sorted By Name:\n");
-            print(outputFile, result);
-            outputFile.close();
-            break;
-        }
-        default:
-            cout << "Invalid choice!" << endl;
-            break;
+    string fileName =  "SortedByName.txt";
+    ofstream outputFile(fileName,ios::app);
+    if (!outputFile.is_open()) {
+        cerr << "Error opening file '" << fileName << "'" << endl;
+        return 1;
     }
+    outputFile << "\nInsertion Sort"<<endl;
+    outputFile << "Number of comparisons: " << comparisons << endl;
+    outputFile << "Running Time (milliseconds): "  << chrono::duration<double, milli>(diff).count() << " ms" << endl;
+    outputFile << "Students Sorted By Name:\n";
+    print(outputFile, students);
+    // outputFile.close();
+    //sort by gpa
+    comparisons=0;
+    start = chrono::steady_clock::now();
+    insertionSort(students, true, comparisons);
+    stop = chrono::steady_clock::now();
+    diff =stop - start;
 
+    fileName =  "SortedByGPA.txt";
+    ofstream outputFile2(fileName,ios::app);
+    if (!outputFile2.is_open()) {
+        cerr << "Error opening file '" << fileName << "'" << endl;
+        return 1;
+    }
+    outputFile2 << "\nInsertion Sort"<<endl;
+    outputFile2 << "Number of comparisons: " << comparisons << endl;
+    outputFile2 << "Running Time (milliseconds): " << chrono::duration<double, milli>(diff).count() << " ms" << endl;
+    outputFile2 << "Students Sorted By Name:\n";
+    print(outputFile2, students);
+
+    //selection sort
+    comparisons=0;
+    start = chrono::steady_clock::now();
+    SelectionSort(students, false, comparisons);
+    stop = chrono::steady_clock::now();
+    diff = stop - start;
+    outputFile << "\nSelection Sort"<<endl;
+    outputFile << "Number of comparisons: " << comparisons << endl;
+    outputFile << "Running Time (milliseconds): " << chrono::duration<double, milli>(diff).count() << " ms" << endl;
+    outputFile << "Students Sorted By Name:\n";
+    print(outputFile, students);
+    // outputFile.close();
+    //sort by gpa
+    comparisons=0;
+    start = chrono::steady_clock::now();
+    SelectionSort(students, true, comparisons);
+    stop = chrono::steady_clock::now();
+    diff = stop - start;
+
+    outputFile2 << "\nSelection Sort"<<endl;
+    outputFile2 << "Number of comparisons: " << comparisons << endl;
+    outputFile2 << "Running Time (milliseconds): " << chrono::duration<double, milli>(diff).count() << " ms"  << endl;
+    outputFile2 << "Students Sorted By Name:\n";
+    print(outputFile2, students);
+
+    //bubble sort
+    comparisons=0;
+    start = chrono::steady_clock::now();
+    BubbleSort(students, false, comparisons);
+    stop = chrono::steady_clock::now();
+    diff = stop - start;
+    outputFile << "\nBubble Sort"<<endl;
+    outputFile << "Number of comparisons: " << comparisons << endl;
+    outputFile << "Running Time (milliseconds): " << chrono::duration<double, milli>(diff).count() << " ms"  << endl;
+    outputFile << "Students Sorted By Name:\n";
+    print(outputFile, students);
+
+    //sort by gpa
+    comparisons=0;
+    start = chrono::steady_clock::now();
+    BubbleSort(students, true, comparisons);
+    stop = chrono::steady_clock::now();
+    diff = stop - start;
+
+    outputFile2 << "\nBubble Sort"<<endl;
+    outputFile2 << "Number of comparisons: " << comparisons << endl;
+    outputFile2 << "Running Time (milliseconds): " << chrono::duration<double, milli>(diff).count() << " ms"  << endl;
+    outputFile2 << "Students Sorted By Name:\n";
+    print(outputFile2, students);
+    //shell sort
+    comparisons=0;
+    start = chrono::steady_clock::now();
+    ShellSort(students, false, comparisons);
+    stop = chrono::steady_clock::now();
+    diff = stop - start;
+    outputFile << "\nShell Sort"<<endl;
+    outputFile << "Number of comparisons: " << comparisons << endl;
+    outputFile << "Running Time (milliseconds): " << chrono::duration<double, milli>(diff).count() << " ms"  << endl;
+    outputFile << "Students Sorted By Name:\n";
+    print(outputFile, students);
+    //sort by gpa
+    comparisons=0;
+    start = chrono::steady_clock::now();
+    ShellSort(students, true, comparisons);
+    stop = chrono::steady_clock::now();
+    diff = stop - start;
+
+    outputFile2 << "\nShell Sort"<<endl;
+    outputFile2 << "Number of comparisons: " << comparisons << endl;
+    outputFile2 << "Running Time (milliseconds): " << chrono::duration<double, milli>(diff).count() << " ms"  << endl;
+    outputFile2 << "Students Sorted By Name:\n";
+    print(outputFile2, students);
+
+    //merge sort
+    comparisons=0;
+    start = chrono::steady_clock::now();
+    MergeSort(students, 0, students.size() - 1, false, comparisons);
+    stop = chrono::steady_clock::now();
+    diff = stop - start;
+    outputFile << "\nMerge Sort"<<endl;
+    outputFile << "Number of comparisons: " << comparisons << endl;
+    outputFile << "Running Time (milliseconds): " << chrono::duration<double, milli>(diff).count() << " ms"  << endl;
+    outputFile << "Students Sorted By Name:\n";
+    print(outputFile, students);
+    //sort by gpa
+    comparisons=0;
+    start = chrono::steady_clock::now();
+    MergeSort(students, 0, students.size() - 1, true, comparisons);
+    stop = chrono::steady_clock::now();
+    diff = stop - start;
+
+    outputFile2 << "\nMerge Sort"<<endl;
+    outputFile2 << "Number of comparisons: " << comparisons << endl;
+    outputFile2 << "Running Time (milliseconds): " << chrono::duration<double, milli>(diff).count() << " ms"  << endl;
+    outputFile2 << "Students Sorted By Name:\n";
+    print(outputFile2, students);
+
+    //quick sort
+    comparisons=0;
+    start = chrono::steady_clock::now();
+    QuickSort(students,0,students.size()-1,false,comparisons);
+    stop = chrono::steady_clock::now();
+    diff = stop - start;
+    outputFile << "\nQuick Sort"<<endl;
+    outputFile << "Number of comparisons: " << comparisons << endl;
+    outputFile << "Running Time (milliseconds): " << chrono::duration<double, milli>(diff).count() << " ms"  << endl;
+    outputFile << "Students Sorted By Name:\n";
+    print(outputFile, students);
+    //sort by gpa
+    comparisons=0;
+    start = chrono::steady_clock::now();
+    QuickSort(students,0,students.size()-1,true,comparisons);
+    stop = chrono::steady_clock::now();
+    diff = stop - start;
+
+    outputFile2 << "\nQuick Sort"<<endl;
+    outputFile2 << "Number of comparisons: " << comparisons << endl;
+    outputFile2 << "Running Time (milliseconds): " << chrono::duration<double, milli>(diff).count() << " ms"  << endl;
+    outputFile2 << "Students Sorted By Name:\n";
+    print(outputFile2, students);
+
+    //count sort
+    comparisons=0;
+    start = chrono::steady_clock::now();
+    vector<Student<double>> result(students.size());
+    CountSort(students,result);
+    stop = chrono::steady_clock::now();
+    diff = stop - start;
+
+    outputFile2 << "\nCount Sort"<<endl;
+    outputFile2 << "Number of comparisons: " << comparisons << endl;
+    outputFile2 << "Running Time (milliseconds): " << chrono::duration<double, milli>(diff).count() << " ms"  << endl;
+    outputFile2 << "Students Sorted By Name:\n";
+    print(outputFile2, students);
     cout << "Student data sorted and written to file successfully!!" << endl;
-    return 0;
 }
 
